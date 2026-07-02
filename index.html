@@ -18,21 +18,26 @@
           <p class="eyebrow">Kisisel depo</p>
           <h1>Depo Stok</h1>
         </div>
-        <button class="icon-button" id="backupButton" type="button" aria-label="Yedek al" title="Yedek al"><span aria-hidden="true">↓</span></button>
+        <div class="top-actions">
+          <button class="icon-button" id="exportButton" type="button" aria-label="Excel aktar" title="Excel aktar">XLS</button>
+          <button class="icon-button" id="backupButton" type="button" aria-label="Yedek al" title="Yedek al">YDK</button>
+        </div>
       </header>
 
       <section class="search-panel" aria-label="Urun ara">
         <label for="searchInput">Urun adi veya kodu ara</label>
         <div class="search-row">
           <input id="searchInput" type="search" placeholder="Orn: mont, KOD123" autocomplete="off" />
-          <button class="icon-button" id="clearSearchButton" type="button" aria-label="Aramayi temizle" title="Temizle"><span aria-hidden="true">×</span></button>
+          <button class="icon-button" id="clearSearchButton" type="button" aria-label="Aramayi temizle" title="Temizle">x</button>
         </div>
       </section>
 
       <nav class="tabs" aria-label="Sayfalar">
         <button class="tab active" type="button" data-view="searchView">Arama</button>
         <button class="tab" type="button" data-view="formView">Ekle</button>
+        <button class="tab" type="button" data-view="movementView">Hareket</button>
         <button class="tab" type="button" data-view="locationsView">Depo</button>
+        <button class="tab" type="button" data-view="countView">Sayim</button>
       </nav>
 
       <section class="view active" id="searchView">
@@ -41,6 +46,19 @@
           <div><strong id="stockCount">0</strong><span>stok</span></div>
           <div><strong id="locationCount">24</strong><span>lokasyon</span></div>
         </div>
+
+        <section class="filter-panel" aria-label="Filtreler">
+          <div class="split">
+            <div class="field"><label for="filterLocation">Lokasyon</label><select id="filterLocation"></select></div>
+            <div class="field"><label for="filterStock">Stok</label><select id="filterStock"><option value="all">Tumu</option><option value="positive">Stogu olan</option><option value="zero">Sifir stok</option></select></div>
+          </div>
+          <div class="split">
+            <div class="field"><label for="filterColor">Renk</label><input id="filterColor" type="text" placeholder="Tum renkler" autocomplete="off" /></div>
+            <div class="field"><label for="filterSize">Beden</label><input id="filterSize" type="text" placeholder="Tum bedenler" autocomplete="off" /></div>
+          </div>
+          <button class="secondary-button" id="clearFiltersButton" type="button">Filtreleri temizle</button>
+        </section>
+
         <div class="result-list" id="resultList"></div>
       </section>
 
@@ -60,7 +78,30 @@
         </form>
       </section>
 
+      <section class="view" id="movementView">
+        <form class="stock-form" id="movementForm">
+          <div class="field"><label for="movementRecord">Urun / Lokasyon</label><select id="movementRecord" required></select></div>
+          <div class="segmented" role="group" aria-label="Hareket tipi">
+            <button class="segment active" type="button" data-movement-type="in">Giris</button>
+            <button class="segment" type="button" data-movement-type="out">Cikis</button>
+          </div>
+          <div class="field"><label for="movementQuantity">Miktar</label><input id="movementQuantity" type="number" min="1" step="1" required inputmode="numeric" /></div>
+          <div class="field"><label for="movementNote">Not</label><textarea id="movementNote" rows="3" placeholder="Orn: iade, satis, transfer"></textarea></div>
+          <button class="primary-button" type="submit">Hareketi kaydet</button>
+        </form>
+        <div class="section-title"><strong>Son hareketler</strong></div>
+        <div class="movement-list" id="movementList"></div>
+      </section>
+
       <section class="view" id="locationsView"><div class="location-grid" id="locationGrid"></div></section>
+
+      <section class="view" id="countView">
+        <div class="count-toolbar">
+          <button class="secondary-button" id="resetCountButton" type="button">Sayimi yenile</button>
+          <button class="primary-button" id="applyCountButton" type="button">Farklari uygula</button>
+        </div>
+        <div class="count-list" id="countList"></div>
+      </section>
 
       <section class="utility-panel">
         <button class="text-button" id="importButton" type="button">Yedekten geri yukle</button>
